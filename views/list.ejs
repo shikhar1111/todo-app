@@ -1,33 +1,33 @@
-<%- include('header'); -%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>To Do List</title>
+        <link href="css/styles.css" type="text/css" rel="stylesheet" />
+    </head>
+    <body>
         <div class="box" id="heading">
-            <h1><%= listTitle %></h1>
+            <h1>To Do App</h1>
         </div>
         <div class="box">
             <% items.forEach(function(item){ %>
                 <form style="display: inline;" action="/delete" method="POST">
-                    <div class="item">
-                        <input type="checkbox" name="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
-                        <p><%= item.name  %></p>
+                    <div class="item">                   
                         <input type="text" name="itemDelete" value="<%= item._id %>" style="display: none;">
-                        <button type="submit" name="deleteButton" value="">-</button>
+                        <button type="submit" name="deleteButton" value="" style="margin-left:20px">-</button>
+                        <p><%= item.name  %></p>
                     </div>
                     <input type="hidden" name="listName" value=<%= listTitle %>>
                 </form>
             <% }) %>
             <form class="item" action="/add" method="post">
-                <input
-                        type="text"
-                        name="item"
-                        class="form-control top"
-                        placeholder="New Item"
-                        autocomplete="off"
-                        required
-                        autofocus
-                />
-
                 <button type="submit" name="list" value=<%= listTitle %>>
                     +
                 </button>
+                <input type="text" name="item" class="form-control top" placeholder="New Item" autocomplete="off" required autofocus />   
             </form>
         </div>
-<%- include('footer'); -%>
+    </body>
+</html>

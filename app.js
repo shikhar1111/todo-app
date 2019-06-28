@@ -8,15 +8,18 @@ app.use(express.static(__dirname + "/public"));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// let items = [];
-// let workItems = [];
 
-mongoose.connect("mongodb+srv://admin-joao:Test123@cluster0-asuex.mongodb.net/todolistDB", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/todo-app", {useNewUrlParser: true},(err,res)=>{
+	if(err){
+		console.log(err);
+	} else{
+		console.log('Database connected');
+	}
+});
 
 const itemsSchema = new mongoose.Schema ({
 	name: {
-		type: String,
-		required: [true, "Please check your data entry, no name specified!"]
+		type: String
 	}
 });
 
@@ -29,40 +32,18 @@ const Item = mongoose.model("Item", itemsSchema);
 
 const List = mongoose.model("List", listSchema);
 
-const item1 = new Item({
-	name: "item1"
-});
-const item2 = new Item({
-	name: "item2"
-});
-const item3 = new Item({
-	name: "item3"
-});
-
-const defaultItems = [item1, item2, item3];
+const defaultItems = [];
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-	port = 4000;
+	port = 3000;
 }
-
-// app.listen(process.env.PORT || 4000, function() {
 app.listen(port, function() {
-	console.log("Server started successfully.");
+	console.log("Server started at port 3000.");
 });
 
 app.get("/", function(req, res){
 	Item.find({}, function(err, items){
-		if (items.length === 0){
-			Item.insertMany(defaultItems, function(err){
-				if (err){
-					console.log(err);
-				} else {
-					console.log("Default Items successfully added!");
-				}
-			});
-		}
-
 		if (err){
 			console.log(err);
 		} else {
@@ -114,17 +95,10 @@ app.post("/add", function(req, res) {
 			res.redirect("/" + listName);
 		})
 	}
-	// const itemName = req.body.newItem;
-	// const item = new Item({
-	// 	name: itemName;
-	// });
-	// item.save;
 });
 
 app.post("/delete", function(req, res) {
 	const listName = req.body.listName;
-
-	if (listName === "Today") {
 		Item.findOneAndDelete({_id: req.body.itemDelete}, function(err){
 			if (err){
 				console.log(err);
@@ -132,23 +106,5 @@ app.post("/delete", function(req, res) {
 				console.log("success! Item deleted");
 			}
 		});
-		res.redirect("/");
-	} else {
-		List.findOneAndUpdate(
-				{name: listName},
-				{$pull: {items: {_id: req.body.itemDelete}}},
-				function(err, foundList) {
-					if (err) {
-						console.log(err);
-					} else {
-						console.log("success! Item deleted");
-					}
-				}
-		);
-		res.redirect("/" + listName);
-	}
-});
-
-app.get("/about", function(req,res) {
-	res.render("about");
+	res.redirect("/");
 });

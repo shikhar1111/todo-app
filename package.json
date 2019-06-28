@@ -6,17 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Joao Quaresma",
+  "author": "Shikhar Agarwal",
   "license": "ISC",
   "engines": {
     "node": "10.15.3"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
     "lodash": "^4.17.11",
-    "mongoose": "^5.5.11"
+    "mongoose": "^5.6.1"
   },
   "devDependencies": {
     "node-readme": "^0.1.9"
